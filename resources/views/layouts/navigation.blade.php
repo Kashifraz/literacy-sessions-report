@@ -22,16 +22,16 @@
                         {{ __('Literacy Session') }}
                     </x-nav-link>
                     <x-nav-link :href="route('campus.create')" :active="request()->routeIs('campus.create')">
-                        {{ __('Add Campuses') }}
+                        {{ __('Campuses') }}
                     </x-nav-link>
                     <x-nav-link :href="route('department.create')" :active="request()->routeIs('department.create')">
-                        {{ __('Add Departments') }}
+                        {{ __('Departments') }}
                     </x-nav-link>
                     <x-nav-link :href="route('program.create')" :active="request()->routeIs('program.create')">
-                        {{ __('Add Programs') }}
+                        {{ __('Programs') }}
                     </x-nav-link>
                     <x-nav-link :href="route('topic.create')" :active="request()->routeIs('topic.create')">
-                        {{ __('Add Topics') }}
+                        {{ __('Topics') }}
                     </x-nav-link>
                     <x-nav-link :href="route('literacysession.import')" :active="request()->routeIs('literacysession.import')">
                         {{ __('Import ') }}

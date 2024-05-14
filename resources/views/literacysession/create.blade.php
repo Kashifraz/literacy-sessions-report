@@ -7,7 +7,7 @@
 
     <div class="py-12">
 
-        <div class="max-w-4xl mx-auto sm:px-6 lg:px-8 space-y-6">
+        <div class="max-w-5xl mx-auto sm:px-6 lg:px-8 space-y-6">
             @if(Session::has('message'))
             <div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-200" role="alert">
                 <span class="font-medium">Success alert!</span> {{ Session::get('message') }}
