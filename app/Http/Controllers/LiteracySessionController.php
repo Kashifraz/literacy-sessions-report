@@ -255,7 +255,7 @@ class LiteracySessionController extends Controller
         $answers = json_decode($literacySession->answers);
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
         $templatePath = public_path("templates\RIU1.docx");
-        $reportsPath = public_path("reports\ILS-report-template.docx");
+        $reportsPath = public_path("reports\ILS-report.docx");
         // loading word template
         $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor($templatePath);
         //setting template varaibles and temporarily saving file
