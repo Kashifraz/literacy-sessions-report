@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\File;
 use Excel;
 use DocxMerge\DocxMerge;
 use Illuminate\Support\Facades\Storage;
+use Mockery\Undefined;
 use PhpOffice\PhpWord\Shared\Converter;
 
 class LiteracySessionController extends Controller
@@ -244,18 +245,25 @@ class LiteracySessionController extends Controller
 
     public function downloadReport(Request $request)
     {
+
         $session_id = $request->session_id;
         $image = $request->input('session_chart_base64'); // image base64 encoded
+        $image_extension = null;
+        preg_match("/data:image\/(.*?);/", $image, $image_extension); // extract the image extension
         $image = preg_replace('/data:image\/(.*?);base64,/', '', $image); // remove the type part
         $image = str_replace(' ', '+', $image);
-        $imageName = 'image_' . time() . '.' ."png"; //generating unique file name;
+        if ($image_extension[1] != null) {
+            $imageName = 'image_' . time() . '.' . $image_extension[1]; //generating unique file name;
+        } else {
+            return "there is something wrong";
+        }
         $file = base64_decode($image);
-        $success = file_put_contents(public_path().'/charts/'.$imageName, $file);
+        $success = file_put_contents(public_path() . '/charts/' . $imageName, $file);
         $literacySession = LiteracySession::find($session_id);
         $answers = json_decode($literacySession->answers);
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
         $templatePath = public_path("templates\RIU1.docx");
-        $reportsPath = public_path("reports\ILS-report.docx");
+        $reportsPath = public_path("reports\ILS-report-template.docx");
         // loading word template
         $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor($templatePath);
         //setting template varaibles and temporarily saving file
@@ -331,7 +339,7 @@ class LiteracySessionController extends Controller
         $section->addTextBreak();
         $section->addTextBreak();
         $section->addImage(
-            public_path().'/charts/'.$imageName,
+            public_path() . '/charts/' . $imageName,
             array(
                 'width'         => 450,
                 'height'        => 280,
@@ -340,7 +348,7 @@ class LiteracySessionController extends Controller
                 'wrappingStyle' => 'behind'
             )
         );
-       
+
         $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
         $fileName = 'reports\ILS_report_temp.docx';
         try {

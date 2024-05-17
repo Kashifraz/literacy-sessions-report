@@ -24,9 +24,9 @@
 
             <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                 <div class="flex " style="width: 700px; margin: auto;">
-                    <canvas id="myChart" style="display: none;"></canvas>
+                    <canvas id="myChart" ></canvas>
                 </div>
-                <form method="POST" action="{{ route('word.download') }}" enctype="multipart/form-data">
+                <form method="POST" class="mt-5" action="{{ route('word.download') }}" enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" name="session_id" id="session_id" value="<?php echo $literacySession->id ?>">
                     <input type="hidden" name="session_chart_base64" id="session_chart_base64">
