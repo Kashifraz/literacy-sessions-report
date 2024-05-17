@@ -262,8 +262,8 @@ class LiteracySessionController extends Controller
         $literacySession = LiteracySession::find($session_id);
         $answers = json_decode($literacySession->answers);
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
-        $templatePath = public_path("templates\RIU1.docx");
-        $reportsPath = public_path("reports\ILS-report-template.docx");
+        $templatePath = public_path("templates/RIU1.docx");
+        $reportsPath = public_path("reports/ILS-report-template.docx");
         // loading word template
         $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor($templatePath);
         //setting template varaibles and temporarily saving file
@@ -350,7 +350,7 @@ class LiteracySessionController extends Controller
         );
 
         $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
-        $fileName = 'reports\ILS_report_temp.docx';
+        $fileName = 'reports/ILS_report_temp.docx';
         try {
             $objWriter->save(public_path($fileName));
         } catch (Exception $e) {
@@ -358,11 +358,11 @@ class LiteracySessionController extends Controller
 
         $dm = new DocxMerge();
         $dm->merge([
-            "reports\ILS-report-template.docx",
-            "reports\ILS_report_temp.docx"
+            "reports/ILS-report-template.docx",
+            "reports/ILS_report_temp.docx"
         ], "reports/ILS_report.docx");
 
-        File::delete(public_path('reports\ILS-report-template.docx'), public_path('reports\ILS_report_temp.docx'));
+        File::delete(public_path('reports/ILS-report-template.docx'), public_path('reports\ILS_report_temp.docx'));
         return response()->download(public_path('reports/ILS_report.docx'));
     }
 }
