@@ -248,7 +248,6 @@ class LiteracySessionController extends Controller
 
     public function downloadReport(Request $request)
     {
-        File::delete(public_path('reports/ILS_report.docx'));
         $session_id = $request->session_id;
         $image = $request->input('session_chart_base64'); // image base64 encoded
         $image_extension = null;
