@@ -221,11 +221,14 @@ class LiteracySessionController extends Controller
         }
         //create data array for avg responses chart
         for ($i = 0; $i < 12; $i++) {
-            $avg_data = ((((is_int($strongly_agree_series[$i]) ? round(($strongly_agree_series[$i]), 2) : 0) * 4))+
-                ((is_int($agree_series[$i]) ? round(($agree_series[$i]), 2) : 0)* 3)) +
-                (((is_int($disagree_series[$i]) ? round(($disagree_series[$i]), 2) : 0)* 2)) +
+            $avg_data = (
+                (((is_int($strongly_agree_series[$i]) ? round(($strongly_agree_series[$i]), 2) : 0) * 4)) +
+                (((is_int($agree_series[$i]) ? round(($agree_series[$i]), 2) : 0) * 3)) +
+                (((is_int($disagree_series[$i]) ? round(($disagree_series[$i]), 2) : 0) * 2)) +
                 (((is_int($strongly_disagree_series[$i]) ? round(($strongly_disagree_series[$i]), 2) : 0) * 1)) +
-                (((is_int($no_response_series[$i]) ? round(($no_response_series[$i]), 2) : 0) * 0)) /
+                (((is_int($no_response_series[$i]) ? round(($no_response_series[$i]), 2) : 0) * 0))
+                )
+                /
                 (is_int($literacySession->participants) ? ($literacySession->participants) : 60);
 
             array_push($avg_responses, $avg_data);
@@ -245,7 +248,7 @@ class LiteracySessionController extends Controller
 
     public function downloadReport(Request $request)
     {
-
+        File::delete(public_path('reports/ILS_report.docx'));
         $session_id = $request->session_id;
         $image = $request->input('session_chart_base64'); // image base64 encoded
         $image_extension = null;
@@ -362,7 +365,7 @@ class LiteracySessionController extends Controller
             "reports/ILS_report_temp.docx"
         ], "reports/ILS_report.docx");
 
-        File::delete(public_path('reports/ILS-report-template.docx'), public_path('reports\ILS_report_temp.docx'));
+        File::delete(public_path('reports/ILS-report-template.docx'), public_path('reports/ILS_report_temp.docx'));
         return response()->download(public_path('reports/ILS_report.docx'));
     }
 }
